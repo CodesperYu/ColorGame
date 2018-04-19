@@ -11,15 +11,16 @@ var h1 = document.querySelector('h1');
 var selected = document.querySelector('.selected');
 var result = document.getElementById('result');
 
+
 newColorButton.addEventListener("click", function() {
-	changeColor();
-	listColors();
-	h1.style.background = 'steelBlue';
-	selected.style.backgroundColor = 'steelblue';
-	result.textContent = 'Let\'s Begin!';
+	if (makeEasy.className === 'selected'){
+		easyMode();
+	} else {
+		hardMode();
+	}
 });
 
-makeEasy.addEventListener('click', function() {
+function easyMode() {
 	end = 3;
 	changeColor();
 	clear();
@@ -27,17 +28,21 @@ makeEasy.addEventListener('click', function() {
 	makeHard.classList.remove('selected');
 	h1.style.background = 'steelBlue';
 	result.textContent = 'Let\'s Begin!';
-});
+}
 
-makeHard.addEventListener('click', function() {
+function hardMode() {
 	end = 6;
 	changeColor();
 	listColors();
 	this.classList.add('selected');
-	makeEasy.classList.remove('selected'); 
+	makeEasy.classList.remove('selected');
 	h1.style.background = 'steelBlue';
 	result.textContent = 'Let\'s Begin!';
-});
+}
+
+makeEasy.addEventListener('click', easyMode);
+
+makeHard.addEventListener('click', hardMode);
 
 function clear() {
 	for (var i = 0; i < squares.length; i++) {
@@ -94,8 +99,6 @@ function listColors() {
 			if (clickedColor === correct) {
 				result.textContent = 'correct';
 				h1.style.backgroundColor = correct;
-				selected.style.backgroundColor = correct;
-				selected.style.color = 'white';
 				sameColor();
 			} else {
 				this.style.background = '#232323';
