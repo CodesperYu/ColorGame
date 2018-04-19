@@ -1,3 +1,4 @@
+'use strict';
 var start = 0;
 var end = 6;
 var colors = colorGenerator(end);
@@ -10,21 +11,30 @@ var makeHard = document.getElementById('hard');
 var h1 = document.querySelector('h1');
 var selected = document.querySelector('.selected');
 var result = document.getElementById('result');
+var btn = document.querySelectorAll('button');
 
-
+//event listeners 
 newColorButton.addEventListener("click", function() {
 	if (makeEasy.className === 'selected'){
-		easyMode();
+		easyMode.bind(makeEasy)();
 	} else {
-		hardMode();
+		hardMode.bind(makeHard)();
 	}
 });
 
+makeEasy.addEventListener('click', easyMode);
+
+makeHard.addEventListener('click', hardMode);
+
+
+// difficulty mode functions
 function easyMode() {
 	end = 3;
 	changeColor();
 	clear();
-	this.classList.add('selected');
+	if (this) {
+		this.classList.add('selected');
+	}
 	makeHard.classList.remove('selected');
 	h1.style.background = 'steelBlue';
 	result.textContent = 'Let\'s Begin!';
@@ -40,9 +50,6 @@ function hardMode() {
 	result.textContent = 'Let\'s Begin!';
 }
 
-makeEasy.addEventListener('click', easyMode);
-
-makeHard.addEventListener('click', hardMode);
 
 function clear() {
 	for (var i = 0; i < squares.length; i++) {
@@ -55,7 +62,6 @@ function clear() {
 }
 
 function changeColor() {
-	console.log(end);
 	colors = colorGenerator(end);
 	picked = Math.floor(randomPick(start, end));
 	correct = document.getElementById('colorDisplay').textContent = colors[picked];
@@ -82,6 +88,11 @@ function randomPick(min, max) {
 }
 
 var sameColor = function() {
+	// for (var i = 0; i < btn.length; i++) {
+	// 	btn[i].style.color = correct;
+	// }
+
+	// selected.style.backgroundColor = correct;
 	for (var i = 0; i < end; i++) {
 		squares[i].style.backgroundColor = correct;
 	}
